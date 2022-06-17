@@ -36,5 +36,5 @@ Tampilan dashboard digital untuk kendaraan listrik berbasis python dan kivy
 ## Made by
 RAIZEN - Ray Rahman
 
-##CORPORATE
+## CORPORATE
 STP - Institut Teknologi Sepuluh Nopember
