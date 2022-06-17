@@ -1,0 +1,13 @@
+joblib==1.1.0
+Kivy==2.0.0
+kivy_garden==0.1.5
+Kivy-Garden==0.1.4
+kivy-garden.mapview==1.0.5
+# kivy-garden.qrcode==2021.314
+#kivy_garden.speedmeter==0.1.2
+kivymd==0.104.2
+kivymd_extensions==1.0.0
+kivymd_extensions.akivymd==1.2.6
+PyBluez==0.22
+pyserial==3.5
+requests==2.26.0
