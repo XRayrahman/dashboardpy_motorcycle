@@ -116,22 +116,30 @@
                     #     font_size:"12sp"
                     #     halign:"center"
                     #     color:(23/255,28/255,35/255,1)
-                    Image:
-                        source: 'mobile-app.png'
-                        size: self.texture_size
+                    BoxLayout:
+                        padding:"100dp"
+                        Image:
+                            source: 'evolion-logo-white.png'
+                            size: self.texture_size
             
             FloatLayout:
                 orientation: "horizontal"
                 size_hint: 1,1
                 #spacing:"30dp"
                 #padding:"5dp"
-                # pos_hint: {"center_x": .5, "center_y": 0.3}       
-                AKSpinnerFoldingCube:
-                    id: foldingcube
-                    spinner_size: dp(35)
-                    pos_hint: {"center_x": .5, "top": .25}
-                    angle: 45
+                # pos_hint: {"center_x": .5, "center_y": 0.3}   
+                
+                MDSpinner:
+                    size_hint: None, None
+                    size: dp(35), dp(35)
+                    pos_hint: {'center_x': .5, 'center_y': .25}
                     active: True
+                # AKSpinnerFoldingCube:
+                #     id: foldingcube
+                #     spinner_size: dp(35)
+                #     pos_hint: {"center_x": .5, "top": .25}
+                #     angle: 45
+                #     active: True
                     # BoxLayout:
                     #     pos_hint: {"center_x": 0.5,"center_y": 1}
                     #     padding:"10dp"
@@ -181,7 +189,7 @@
 
                             ScreenManager:
                                 id:menubar_left
-                                size_hint_y:1
+                                size_hint_y:.4
                                 Screen:
                                     id: menubar_leftTop1
                                     name:'menubar_leftTop1'
@@ -266,84 +274,165 @@
                                             #     text_color: app.theme_cls.primary_color
                                             #     pos_hint:{"center_x": .1, "center_y": .5}
                                             Label_roboto:
-                                                id: DummyDistance
+                                                id: SPEED_ontop
                                                 text: ""
-                                                font_size: "32sp"
+                                                font_size: "36sp"
                                                 pos_hint: {"center_x": .5, "center_y": .5}
 
                                         CardLayout:
                                             orientation: "horizontal"
                                             size_hint_y: 0.4
                                             Label_roboto:
-                                                id: DummyTimeEst
+                                                id: SOC_ontop
                                                 text: ""
-                                                font_size: "32sp"
+                                                font_size: "36sp"
                                                 pos_hint: {"center_x": .5, "center_y": .5}
+                            BoxLayout:
+                                size_hint_y: 0.03
+                                Label_roboto:
+                                    text:"- - - - -"
 
                             ScreenManager:
                                 id:screendget_mini
-                                size_hint_y: 1
+                                size_hint_y: 0.57
                                 Screen:
                                     id:s_mini1
                                     name:'s_mini1'
-                                    CardLayout:
-                                        size_hint:1,1
-                                        padding:"15dp"
-                                        orientation:"vertical"
-                                        Label_roboto:
-                                            # id: label_bottom_ori
-                                            text:"Install aplikasi\nuntuk estimasi"
-                                            size_hint:1,1
-                                            font_size:"12sp"
-                                            halign:"center"
-                                            color:(1,1,1,1)
+                                    BoxLayout:
+                                        orientation: "vertical"
+                                        spacing:"15dp"
+                                        CardLayout:
+                                            size_hint_y:0.66
+                                            padding:"15dp"
+                                            orientation:"vertical"
+                                            Label_roboto:
+                                                # id: label_bottom_ori
+                                                text:"Install aplikasi\nuntuk estimasi"
+                                                size_hint:1,1
+                                                font_size:"12sp"
+                                                halign:"center"
+                                                color:(1,1,1,1)
+                                            BoxLayout:
+                                                padding:"3dp"
+                                                Image:
+                                                    source: 'mobile-app.png'
+                                                    size: self.texture_size
+
                                         BoxLayout:
-                                            padding:"10dp"
+                                            orientation: "vertical"
+                                            size_hint_y:0.33
+                                            padding:"20dp"
+
+
+                                                #Button:
+                                                #    size_hint:.3,.5
+                                                #    text: 'test'
+                                                #    on_release: qr.data = "Kivy Rocks!"
+
                                             Image:
-                                                source: 'mobile-app.png'
+                                                source: 'evolion-logo-white.png'
                                                 size: self.texture_size
 
                                 Screen:
-                                    id:s_mini2
-                                    CardLayout:
-                                        orientation: 'vertical'
-                                        size_hint_y: 1
-                                        spacing:"10dp"
+                                    id: s_mini2
+                                    name: "menubar_leftTop2"
+                                    BoxLayout:
+                                        orientation: "vertical"
+                                        spacing:'15dp'
+                                        CardLayout:
+                                            orientation: "horizontal"
+                                            size_hint_y: 0.33
+                                            # MDIconButton:
+                                            #     icon: "road-variant"
+                                            #     user_font_size: "35sp"
+                                            #     theme_text_color: "Custom"
+                                            #     text_color: app.theme_cls.primary_color
+                                            #     pos_hint:{"center_x": .1, "center_y": .5}
+                                            Label_roboto:
+                                                id: eco_recomm
+                                                text: "1"
+                                                font_size: "22sp"
+                                                pos_hint: {"center_x": .5, "center_y": .5}
 
-                                        Label_roboto:
-                                            # id: label_bottom_ori
-                                            text:"Dengan estimasi\nkecepatan 50 km/h :"
-                                            size_hint:1,0.4
-                                            font_size:"12sp"
-                                            halign:"left"
-                                            color:(1,1,1,1)
-                                        Label_roboto:
-                                            id: recommendation
-                                            text:""
-                                            halign: "center"
-                                            valign: "center"
-                                            text_size: self.size
-                                            size_hint:1,.9
-                                            # font_size: "12sp"
-                                            font_size: "28sp"
-                                            bold: True
-                                            color: 146/255,218/255,241/255,1
+                                        CardLayout:
+                                            orientation: "horizontal"
+                                            size_hint_y: 0.33
+                                            Label_roboto:
+                                                id: normal_recomm
+                                                text: "2"
+                                                font_size: "22sp"
+                                                pos_hint: {"center_x": .5, "center_y": .5}
 
-                            BoxLayout:
-                                orientation: "horizontal"
-                                size_hint_y:0.5
-                                spacing:"15dp"
-                                padding:"20dp"
+                                        CardLayout:
+                                            orientation: "horizontal"
+                                            size_hint_y:0.33
+                                            # spacing:"15dp"
+                                            # padding:"20dp"
+                                            Label_roboto:
+                                                id: sport_recomm
+                                                text:"3"
+                                                font_size:"22sp"
+                                                pos_hint: {"center_x": .5, "center_y": .5}
+
+                                    FloatLayout:
+                                        size_hint:1,1
+                                        PilLayout:
+                                            orientation: "horizontal"
+                                            pos_hint:{"top":.77,"center_x":.5}
+                                            size_hint: 0.65, 0.085
+                                            Label_roboto_white:
+                                                # id: card_label
+                                                text:"ECO"
+                                                size_hint:1,1
+                                                font_size:"12sp"
+                                                pos_hint: {"center_x":0.5}
+
+                                    FloatLayout:
+                                        size_hint:1,1
+                                        PilLayout:
+                                            orientation: "horizontal"
+                                            pos_hint:{"top":.067,"center_x":.5}
+                                            size_hint: 0.65, 0.085
+                                            Label_roboto_white:
+                                                # id: card_label
+                                                text:"SPORT"
+                                                size_hint:1,1
+                                                font_size:"12sp"
+                                                pos_hint: {"center_x":0.5}
+                                                # color:(0,0,0,1)
 
 
-                                    #Button:
-                                    #    size_hint:.3,.5
-                                    #    text: 'test'
-                                    #    on_release: qr.data = "Kivy Rocks!"
+                                                #Button:
+                                                #    size_hint:.3,.5
+                                                #    text: 'test'
+                                                #    on_release: qr.data = "Kivy Rocks!"
 
-                                Image:
-                                    source: 'evolion-logo-white.png'
-                                    size: self.texture_size
+
+                                # Screen:
+                                #     id:s_mini2
+                                #     CardLayout:
+                                #         orientation: 'vertical'
+                                #         size_hint_y: 1
+                                #         spacing:"10dp"
+
+                                #         Label_roboto:
+                                #             # id: label_bottom_ori
+                                #             text:"Dengan estimasi\nkecepatan 50 km/h :"
+                                #             size_hint:1,0.4
+                                #             font_size:"12sp"
+                                #             halign:"left"
+                                #             color:(1,1,1,1)
+                                #         Label_roboto:
+                                #             id: recommendation
+                                #             text:""
+                                #             halign: "center"
+                                #             valign: "center"
+                                #             text_size: self.size
+                                #             size_hint:1,.9
+                                #             # font_size: "12sp"
+                                #             font_size: "28sp"
+                                #             bold: True
+                                #             color: 146/255,218/255,241/255,1
                                 # QRCodeWidget:
                                 #     id: qr
                                 #     data: 'Hello World'
@@ -644,14 +733,13 @@
 
                                                 #     GridLayout:
                                                 #         cols:1
-
                                         FloatLayout:
                                             size_hint:1,1
                                             BoxLayout:
                                                 orientation: "vertical"
-                                                pos_hint:{"top":.28,"right":.971}
-                                                size_hint_y:.2
-                                                size_hint_x:.95
+                                                pos_hint:{"top":.971,"right":.971}
+                                                size_hint_y:.12
+                                                size_hint_x:.15
                                                 # size: lokasi_label.size
                                                 padding:"7dp"
                                                 canvas:
@@ -663,13 +751,87 @@
                                                 BoxLayout:
                                                     orientation:"vertical"
                                                     Label_roboto:
-                                                        id: lokasi_label
-                                                        text:"SAMBUNGKAN INTERNET"
+                                                        id: time_onmap
+                                                        text:"time"
                                                         # size_hint:.5,1
                                                         size:self.size
+                                                        font_size:"24sp"
+                                                        halign:"left"
+
+                                        FloatLayout:
+                                            size_hint:1,1
+                                            BoxLayout:
+                                                orientation: "vertical"
+                                                # pos_hint:{"top":.28,"left":.971}
+                                                pos_hint:{"top":.3}
+                                                size_hint_y:.35
+                                                size_hint_x:1
+                                                # size: lokasi_label.size
+                                                padding:"7dp"
+                                                canvas:
+                                                    Color:
+                                                        rgba:(23/255,28/255,35/255,1)
+                                                    RoundedRectangle:
+                                                        size: self.size 
+                                                        pos: self.pos
+                                                BoxLayout:
+                                                    orientation:"horizontal"
+                                                    BoxLayout:
+                                                        orientation: "vertical"
+                                                        pos_hint:{"top":.95,"left":.95}
+                                                        size_hint: .25, .8
+                                                        padding:"3dp"
+                                                        spacing:8
+
+                                                        BoxLayout:
+                                                            orientation: "vertical"
+                                                            # pos_hint:{"top":.93,"left":.93}
+                                                            # pos_hint:{"top":.15,"x":.47}
+                                                            # size_hint: .3, .45
+                                                            canvas:
+                                                                Color:
+                                                                    rgba:(15/255,18/255,23/255,1)
+                                                                RoundedRectangle:
+                                                                    size: self.size
+                                                                    pos: self.pos
+
+                                                            Label_roboto:
+                                                                id: DistanceEst 
+                                                                text:""
+                                                                # size_hint:.7,.45
+                                                                # size:self.size
+                                                                font_size:"20sp"
+                                                                halign:"left"
+                                                                # pos_hint: {"top":0.77}
+
+                                                        BoxLayout:
+                                                            orientation: "vertical"
+                                                            # pos_hint:{"top":.93,"left":.93}
+                                                            # pos_hint:{"top":.15,"x":.47}
+                                                            # size_hint: .3, .45
+                                                            canvas:
+                                                                Color:
+                                                                    rgba:(15/255,18/255,23/255,1)
+                                                                RoundedRectangle:
+                                                                    size: self.size
+                                                                    pos: self.pos
+
+                                                            Label_roboto:
+                                                                id: TimeEst 
+                                                                text:""
+                                                                # size_hint:.7,.45
+                                                                # size:self.size
+                                                                font_size:"20sp"
+                                                                halign:"left"
+
+                                                    Label_roboto:
+                                                        id: lokasi_label 
+                                                        text:"kecepatan dan soc"
+                                                        size_hint:.75,.45
+                                                        # size:self.size
                                                         font_size:"15sp"
                                                         halign:"left"
-                                                        # pos_hint: {"center_x":0.27}
+                                                        pos_hint: {"top":0.77}
 
                                                     # Label_roboto:
                                                     #     text:"--------------------------"
@@ -843,7 +1005,7 @@
 
                                         Label:
                                             id: tegangan_value_text
-                                            size_hint:0.7,1
+                                            size_hint:0.5,1
                                             text:""
                                             #font_style: "Body2"
                                             font_name:"Roboto"
@@ -851,8 +1013,17 @@
                                             halign:"right"
 
                                         Label:
+                                            id: line_junction
+                                            size_hint:0.2,1
+                                            text:"|"
+                                            #font_style: "Body2"
+                                            font_name:"Roboto"
+                                            font_size:"48sp"
+                                            halign:"right"
+
+                                        Label:
                                             id:suhu_value_text
-                                            size_hint:0.7,1
+                                            size_hint:0.3,1
                                             text:"37 °C"
                                             #font_style: "Body2"
                                             font_name:"Roboto"
@@ -907,8 +1078,8 @@
                 size_hint:1,1
                 PilLayout:
                     orientation: "horizontal"
-                    pos_hint:{"top":.263,"x":.0472}
-                    size_hint: 0.15, 0.04
+                    pos_hint:{"top":.24,"x":.0472}
+                    size_hint: 0.137, 0.044
                     Label_roboto_white:
                         id: card_label
                         text:"APLIKASI"

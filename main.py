@@ -62,6 +62,7 @@ class Dashboard(MDApp):
         
         self.root.ids.power_switch.active=True
         self.jarak_sebelumnya = 0
+        self.screen_tomap = False
         signal = False
 
         SOC = 2
@@ -73,12 +74,13 @@ class Dashboard(MDApp):
         SOC_value = round((SOC/3)*100, 0)
         SOC_value = str(SOC_value)+"%"
 
-        self.sub1 = Clock.schedule_interval(self.update_status,     5) #(program, interval/waktu dijalankan)
-        self.sub2 = Clock.schedule_interval(self.update_data,       1)
-        self.sub3 = Clock.schedule_interval(self.odometer,          1)
-        self.sub4 = Clock.schedule_interval(self.odometer_submit,   5)
-        self.sub5 = Clock.schedule_interval(self.turn_signal,       2)
-        self.asyncRun = Clock.schedule_once(self.asyncProgram,      10)
+        self.sub1 = Clock.schedule_interval(self.update_status,         5) #(program, interval/waktu dijalankan)
+        self.sub2 = Clock.schedule_interval(self.update_data,           1)
+        self.sub3 = Clock.schedule_interval(self.odometer,              1)
+        self.sub4 = Clock.schedule_interval(self.odometer_submit,       5)
+        self.sub5 = Clock.schedule_interval(self.turn_signal,           2)
+        self.sub6 = Clock.schedule_interval(self.change_screen_tomain,  1)
+        self.asyncRun = Clock.schedule_once(self.asyncProgram,          10)
 
 
     def asyncProgram(self,dt):
@@ -88,6 +90,34 @@ class Dashboard(MDApp):
     def changeScreen(self,dt):
         self.root.ids.screen_manager.transition = RiseInTransition()
         self.root.ids.screen_manager.switch_to(self.root.ids.mainScreen)
+
+    def change_screen_tomain(self, nap):
+        if self.sw_started:
+            self.sw_seconds += nap
+
+        try:
+            dt = open('database/connection.json')
+            data_change_screen = json.load(dt)
+            change_screen = data_change_screen['screen']
+        except:
+            change_screen = False
+        
+        if (change_screen == True or self.screen_tomap == True):
+            self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini2)
+            self.root.ids.screendget.switch_to(self.root.ids.test2)
+            self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop2)
+            self.root.ids.mode_label.text = "SPEED"
+            self.root.ids.power_label.text = "SOC"
+            self.root.ids.card_label.text = "NORMAL"
+            self.screen_tomap = False
+
+        elif (change_screen == False):
+            self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini1)
+            self.root.ids.screendget.switch_to(self.root.ids.test1)
+            self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop1)
+            self.root.ids.mode_label.text = "MODE"
+            self.root.ids.power_label.text = "POWER"
+            self.root.ids.card_label.text = "APLIKASI"
 
     #update data SOC dan kecepatan
     def update_data(self,nap):
@@ -124,7 +154,8 @@ class Dashboard(MDApp):
         # SOC_value = round((float(strtegangan)/3)*100, 1)
         # self.root.ids.SOC_bar.current_percent = 20
         self.root.ids.SOC_bar.current_percent = SOC_value
-        self.SOC_value = str(SOC_value)+"%"
+        self.SOC_value = str(SOC_value)+" %"
+        self.root.ids.SOC_ontop.text = self.SOC_value
 
         #kecepatan
         try:    
@@ -146,6 +177,7 @@ class Dashboard(MDApp):
         speeds = str(kecepatan)
         self.root.ids.speed_bar_value.text = speeds
         speed_value = "%s km/h" %(speeds)
+        self.root.ids.SPEED_ontop.text = speed_value
         # self.root.ids.speed_value.text = speed_value
 
         # self.root.ids.progress_relative.current_percent = 20
@@ -246,6 +278,7 @@ class Dashboard(MDApp):
         #tambah detik = :%S
         #self.root.ids.SOC_value.text = "blok"
         self.root.ids.time.text = strftime('[b]%H:%M  |[/b]')
+        self.root.ids.time_onmap.text = strftime('%H:%M')
 
         if (self.root.ids.power_switch.active == False):
             os.system("killall python")
@@ -302,14 +335,9 @@ class Dashboard(MDApp):
                         self.root.estimasi(tujuanLat,tujuanLng, self.SOC_value)
                     except Exception as e:
                         print('estimation error :',str(e) )
-                        
+
+                    self.screen_tomap = True
                     self.root.center_maps()
-                    self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini2)
-                    self.root.ids.screendget.switch_to(self.root.ids.test2)
-                    self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop2)
-                    self.root.ids.mode_label.text = "JARAK"
-                    self.root.ids.power_label.text = "WAKTU"
-                    self.root.ids.card_label.text = "REKOMENDASI"
                     self.tuj = tujuanLat
                     print("selesai")
                 except Exception as e:
@@ -447,8 +475,11 @@ class MyLayout(Screen):
             data_matrix = json.loads(post_matrix.text)
             duration = data_matrix['durations'][0][1]
             TrueDistance = data_matrix['distances'][0][1]
-            self.ids.DummyDistance.text = str(TrueDistance) + " km"
-            self.ids.DummyTimeEst.text = str(duration) + " s"
+            TrueDistance = format(float(TrueDistance), ".3f")
+            self.ids.DistanceEst.text = str(TrueDistance) + " km"
+            duration_minute = float(duration)/60
+            duration_minute = format(float(duration_minute), ".2f")
+            self.ids.TimeEst.text = str(duration_minute) + " menit"
         except Exception as e:
             print('INVALID REQUEST DISTANCE :',str(e) )
         
@@ -461,8 +492,17 @@ class MyLayout(Screen):
         try:
             geocode_origin = json.loads(get_geocode_origin.text)
             geocode_destination = json.loads(get_geocode_destination.text)
+
             place_name_origin = geocode_origin["features"][0]["properties"]["label"]
+            place_name_origin = place_name_origin.split(",")
+            place_name_origin = place_name_origin[0:2]
+            place_name_origin = ','.join(place_name_origin)
+
             place_name_destination = geocode_destination["features"][0]["properties"]["label"]
+            place_name_destination = place_name_destination.split(",")
+            place_name_destination = place_name_destination[0:2]
+            place_name_destination = ','.join(place_name_destination)
+
             self.ids.lokasi_label.text = "ASAL        :  %s\nTUJUAN   :  %s" %(place_name_origin,place_name_destination)
             # print(call.status_code, call.reason)
             print(place_name_destination)
@@ -493,10 +533,13 @@ class MyLayout(Screen):
                 if (float(SOC) - (3/100)*5 <= float(test)):
                     if x == eco:
                         estimasi_eco = "TIDAK CUKUP"
+                        self.ids.eco_recomm.color = 223/255,91/255,97/255,1
                     elif x == normal:
                         estimasi_normal = "TIDAK CUKUP"
+                        self.ids.normal_recomm.color = 223/255,91/255,97/255,1
                     elif x == sport:
                         estimasi_sport = "TIDAK CUKUP"
+                        self.ids.sport_recomm.color = 223/255,91/255,97/255,1
 
                 elif (float(SOC) - (3/100)*5 > float(test)):
                     if x == eco:
@@ -506,7 +549,9 @@ class MyLayout(Screen):
                     elif x == sport:
                         estimasi_sport = "CUKUP"
             # satu rekomendasi
-            self.ids.recommendation.text = str(estimasi_normal)
+            self.ids.eco_recomm.text = str(estimasi_eco)
+            self.ids.normal_recomm.text = str(estimasi_normal)
+            self.ids.sport_recomm.text = str(estimasi_sport)
             self.popup = MDDialog(title='Estimasi berhasil',
                         text= 'ECO : '+estimasi_eco+'\nNORMAL :'+estimasi_normal+'\nSPORT :'+estimasi_sport,
                         radius=[7, 7, 7, 7],
@@ -527,7 +572,7 @@ class MyLayout(Screen):
 
 
 
-class MDDialog(MDDialog):
+class MDDialog():
     
     def __init__(self, **kwargs):
         super(MDDialog, self).__init__(**kwargs)
@@ -542,7 +587,7 @@ class MDDialogMap(MDDialog):
     def __init__(self, **kwargs):
         super(MDDialog, self).__init__(**kwargs)
         # call dismiss_popup in 2 seconds
-        Clock.schedule_once(self.dismiss_popup, 12)
+        Clock.schedule_once(self.dismiss_popup, 15)
 
     def dismiss_popup(self, *args):
         self.dismiss() 

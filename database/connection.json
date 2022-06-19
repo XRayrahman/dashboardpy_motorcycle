@@ -3,5 +3,6 @@
         "id": "",
         "pass": ""
     },
-    "restart":false
+    "restart":false,
+    "screen":false
 }

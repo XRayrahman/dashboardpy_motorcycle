@@ -103,14 +103,19 @@ def store_data_arduino(ser):
                     path_turn = "database/vehicle_info.json"
                     store_data_json(path_turn, data_json_turn)
                 except:
-                    turn_left=False;
-                    turn_right=False;
+                    turn_left=False
+                    turn_right=False
 
                 
 
                 try:
                     statusEstimation = data['isRun']
                     if statusEstimation == True:
+                        ### ganti layar
+                        try:
+                            screen_change=data['screen']
+                        except:
+                            screen_change=False
 
                         ### koneksi
                         try:
@@ -130,7 +135,8 @@ def store_data_arduino(ser):
                                 "id":bluetooth_wifi_id,
                                 "pass":bluetooth_wifi_pass
                             },
-                            "restart":restart_wifi
+                            "restart":restart_wifi,
+                            "screen":screen_change
                         }
                         
                         path_connection = "database/connection.json"
