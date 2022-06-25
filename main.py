@@ -101,8 +101,9 @@ class Dashboard(MDApp):
             change_screen = data_change_screen['screen']
         except:
             change_screen = False
-        
-        if (change_screen == True or self.screen_tomap == True):
+
+            
+        if (change_screen == True):
             self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini2)
             self.root.ids.screendget.switch_to(self.root.ids.test2)
             self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop2)
@@ -110,14 +111,23 @@ class Dashboard(MDApp):
             self.root.ids.power_label.text = "SOC"
             self.root.ids.card_label.text = "NORMAL"
             self.screen_tomap = False
-
+            
         elif (change_screen == False):
-            self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini1)
-            self.root.ids.screendget.switch_to(self.root.ids.test1)
-            self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop1)
-            self.root.ids.mode_label.text = "MODE"
-            self.root.ids.power_label.text = "POWER"
-            self.root.ids.card_label.text = "APLIKASI"
+            if (self.screen_tomap == True):
+                self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini2)
+                self.root.ids.screendget.switch_to(self.root.ids.test2)
+                self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop2)
+                self.root.ids.mode_label.text = "SPEED"
+                self.root.ids.power_label.text = "SOC"
+                self.root.ids.card_label.text = "NORMAL"
+            else:
+                self.root.ids.screendget_mini.switch_to(self.root.ids.s_mini1)
+                self.root.ids.screendget.switch_to(self.root.ids.test1)
+                self.root.ids.menubar_left.switch_to(self.root.ids.menubar_leftTop1)
+                self.root.ids.mode_label.text = "MODE"
+                self.root.ids.power_label.text = "POWER"
+                self.root.ids.card_label.text = "APLIKASI"
+            # self.screen_tomap = False
 
     #update data SOC dan kecepatan
     def update_data(self,nap):
@@ -214,35 +224,35 @@ class Dashboard(MDApp):
             opdata = open('database/odometer.json')
             data = json.load(opdata)
             odo = data['total_km']
+        
+            self.jarak_tempuh_total = float(odo)
+            #jarak_tempuh = format(float(jarak_tempuh), ".0f")
+            self.jarak_tempuh_total = self.jarak_tempuh_total + self.jarak_tempuh_total_lima
+            # self.jarak_tempuh_total = self.jarak_tempuh_total + jarak_tempuh
+        
+            self.total_odo = format(float(self.jarak_tempuh_total), ".3f")
+            self.root.ids.odometer.text = format(float(self.total_odo), ".3f")
+            # except:
+            odometer = {
+                "total_km": self.total_odo
+            }
+            # except:
+                # pass
+                
+            try:
+                if len(str(data)) != 0:
+                    file = "database/odometer.json"
+                    with open(file, 'w') as file_object: 
+                        json.dump(odometer, file_object, indent=4)
+                    # print(data_json)
+                else:
+                    print("Time out! Exit.\n")
+                    pass
+            except:
+                pass
+
         except Exception as e:
             print('odo error :',str(e) )
-        
-        
-        self.jarak_tempuh_total = float(odo)
-        #jarak_tempuh = format(float(jarak_tempuh), ".0f")
-        self.jarak_tempuh_total = self.jarak_tempuh_total + self.jarak_tempuh_total_lima
-        # self.jarak_tempuh_total = self.jarak_tempuh_total + jarak_tempuh
-    
-        self.total_odo = format(float(self.jarak_tempuh_total), ".3f")
-        self.root.ids.odometer.text = format(float(self.total_odo), ".3f")
-        # except:
-        odometer = {
-            "total_km": self.total_odo
-        }
-        # except:
-            # pass
-            
-        try:
-            if len(str(data)) != 0:
-                file = "database/odometer.json"
-                with open(file, 'w') as file_object: 
-                    json.dump(odometer, file_object, indent=4)
-                # print(data_json)
-            else:
-                print("Time out! Exit.\n")
-                pass
-        except:
-            pass
             # pass
         # odo = "0.123"
         
@@ -414,7 +424,7 @@ class MyLayout(Screen):
             isConnect = "";
         
         if isConnect != "":
-            self.popup = MDDialog(title='terhubung dengan internet \n wifi id : '+name,
+            self.popup = MDDialogDef(title='terhubung dengan internet \n wifi id : '+name,
                         radius=[7, 7, 7, 7],
                         md_bg_color=(25/255,135/255,84/255,1),
                         size_hint=(None, None), size=(400, 400))
@@ -422,7 +432,7 @@ class MyLayout(Screen):
             self.root.ids.wifi_status.text_color = 255/255,255/255,255/255,1
             self.popup.open()
         else:
-            self.popup = MDDialog(title='tidak dapat terhubung dengan internet',
+            self.popup = MDDialogDef(title='tidak dapat terhubung dengan internet',
                         text="kirim wifi id dan password kembali",
                         radius=[7, 7, 7, 7],
                         md_bg_color=(244/255,67/255,54/255,1),
@@ -515,9 +525,11 @@ class MyLayout(Screen):
             SOC = SOC_value
             # SOC = SOC_value.replace("%","")
             print(float(SOC))
-            eco = 45
-            normal = 60
-            sport = 70
+            dm = open('database/speedmode.json')
+            data_speedmode = json.load(dm)
+            eco = data_speedmode['mode']['eco']
+            normal = data_speedmode['mode']['normal']
+            sport = data_speedmode['mode']['sport']
             speedmode = [eco, normal, sport]
         except Exception as e:
             print('INVALID STORING DATA :',str(e) )
@@ -576,7 +588,7 @@ class MyLayout(Screen):
 
 
 
-class MDDialog():
+class MDDialogDef(MDDialog):
     
     def __init__(self, **kwargs):
         super(MDDialog, self).__init__(**kwargs)
@@ -787,7 +799,7 @@ def reset():
 # lay = MyLayout()
 reset()
 Dashboard().run()
-os.system("sudo killall python")
+os.system("killall python")
 
 ##ifi = Popen("python3 testing.py", shell=True);
 #stdout = blu.communicate()

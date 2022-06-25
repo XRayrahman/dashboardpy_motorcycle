@@ -234,12 +234,12 @@
                                                     # bg_color: rgba(120/255,184/255,146/255,1)
                                                     canvas:
                                                         Color:
-                                                            rgb: 64/255,255/255,94/255,1
+                                                            rgb: 120/255,184/255,146/255,1
                                                         Rectangle:
                                                             size: sp(41.5), sp(20)
                                                             pos: self.center_x - sp(40.0), self.center_y - sp(10)
                                                         Color:
-                                                            rgb: 186/255,67/255,39/255,1
+                                                            rgb: 223/255,91/255,97/255,1
                                                         Rectangle:
                                                             size: sp(41.0), sp(20)
                                                             pos: self.center_x, self.center_y - sp(10)
@@ -352,6 +352,7 @@
                                                 id: eco_recomm
                                                 text: "1"
                                                 font_size: "22sp"
+                                                bold: True
                                                 pos_hint: {"center_x": .5, "center_y": .5}
 
                                         CardLayout:
@@ -361,6 +362,7 @@
                                                 id: normal_recomm
                                                 text: "2"
                                                 font_size: "22sp"
+                                                bold: True
                                                 pos_hint: {"center_x": .5, "center_y": .5}
 
                                         CardLayout:
@@ -372,6 +374,7 @@
                                                 id: sport_recomm
                                                 text:"3"
                                                 font_size:"22sp"
+                                                bold: True
                                                 pos_hint: {"center_x": .5, "center_y": .5}
 
                                     FloatLayout:
@@ -391,7 +394,7 @@
                                         size_hint:1,1
                                         PilLayout:
                                             orientation: "horizontal"
-                                            pos_hint:{"top":.067,"center_x":.5}
+                                            pos_hint:{"top":.0665,"center_x":.5}
                                             size_hint: 0.65, 0.085
                                             Label_roboto_white:
                                                 # id: card_label
@@ -891,12 +894,14 @@
                                     #normal_color: app.theme_cls.accent_color
 
         #
+                            ## STATUS BAR BOTTOM ##
                             BoxLayout:
                                 size_hint: 1, 0.25
                                 # padding:"25dp"
                                 spacing: 15
                                 orientation:"horizontal"
 
+                                ## STATUS BAR ICON ##
                                 BoxLayout:
                                     size_hint: 0.355, 1
                                     padding:'25sp'
@@ -907,15 +912,6 @@
                                         RoundedRectangle:
                                             size: self.size
                                             pos: self.pos
-                                    # padding:"10dp"
-                                    # spacing: 10
-                                # #Rotate:
-                                # #    angle: 45
-                                # #    origin: self.center
-
-                                #         theme_text_color: "Custom"
-                                #         text_color: app.theme_cls.primary_color
-                                #         pos_hint:{"left": .5, "center_y": .5}
 
                                     BoxLayout:
                                         size_hint: 1,1
@@ -965,6 +961,8 @@
 
                                 # BoxLayout:
                                 #     size_hint: .1,1
+
+                                ## STATUS BAR BATTERY INFORMATION ##
                                 BoxLayout:
                                     size_hint: 0.477, 1
                                     padding:'25sp'
@@ -976,18 +974,6 @@
                                         RoundedRectangle:
                                             size: self.size
                                             pos: self.pos
-                                    # MDIconButton:
-                                    #     icon: "lightning-bolt"
-                                    #     user_font_size: "40sp"
-                                    #     pos_hint:{"center_y": .5}
-                                    # spacing:10
-                                    # padding:"25dp"
-                                    # MDIconButton:
-                                    #     icon: "speedometer"
-                                    #     user_font_size: "50sp"
-                                    #     theme_text_color: "Custom"
-                                    #     text_color: app.theme_cls.primary_color
-                                    #     pos_hint:{"left": .5, "center_y": .5}
 
                                     BoxLayout:
                                         size_hint: 1,1
@@ -1021,22 +1007,6 @@
                                             font_name:"Roboto"
                                             font_size:"32sp"
                                             halign:"right"
-
-                                        # Label:
-                                        #     text:"SPEED :"
-                                        #     # font_style: "Head1"
-                                        #     font_name:"Roboto"
-                                        #     font_size:"20sp"
-                                        #     halign:"left"
-                                        #     size_hint:0.3,1
-
-                                        # Label:
-                                        #     id:speed_value
-                                        #     size_hint:0.7,1
-                                        #     text:""
-                                        #     font_name:"Roboto"
-                                        #     font_size:"32sp"
-                                        #     halign:"right"
 
 
             FloatLayout:
@@ -1099,33 +1069,13 @@
             #     PilLayout:
             #         orientation: "horizontal"
             #         # pos_hint:{"top":.058,"x":.36}
-            #         pos_hint:{"top":.058,"x":.27}
+            #         pos_hint:{"top":.063,"x":.70}
             #         Label_roboto_white:
             #             # id: label_bottom_ori
             #             text:"BATTERY"
             #             size_hint:1,1
             #             font_size:"12sp"
             #             pos_hint: {"center_x":0.27}
-            #             # color:(0,0,0,1)
-
-            # FloatLayout:
-            #     size_hint:1,1
-            #     PilLayout:
-            #         orientation: "horizontal"
-            #         pos_hint:{"top":.058,"x":.33}
-            #         size_hint_x: 0.165
-            #         # canvas:
-            #         #     Color:
-            #         #         rgba:(146/255,218/255,241/255,1)
-            #         #     RoundedRectangle:
-            #         #         size: self.size
-            #         #         pos: self.pos
-            #         Label_roboto_white:
-            #             id: tegangan_value_text
-            #             text:"tegangan :"
-            #             size_hint:1,1
-            #             font_size:"12sp"
-            #             halign:"left"
             #             # color:(0,0,0,1)
 
 
