@@ -176,7 +176,7 @@ class Dashboard(MDApp):
         self.root.ids.speed_bar.value = kecepatan
         speeds = str(kecepatan)
         self.root.ids.speed_bar_value.text = speeds
-        speed_value = "%s km/h" %(speeds)
+        speed_value = "%s" %(speeds)
         self.root.ids.SPEED_ontop.text = speed_value
         # self.root.ids.speed_value.text = speed_value
 
@@ -387,14 +387,14 @@ class MyLayout(Screen):
             self.marker_destination = MapMarker(lat=self.lat, lon=self.lng, source="marker-red.png")
             mapview.add_widget(self.marker_origin)
             mapview.add_widget(self.marker_destination)
-            Clock.schedule_once(self.zoom_maps, 12)
+            Clock.schedule_once(self.zoom_maps, 17)
             #mapview.add_marker(lat=lat, lon=lng)
         except Exception as e:
             print("error marker map:", str(e))
     
     def zoom_maps(self, *args):
         mapview = self.ids.mapview
-        mapview.zoom = 15
+        mapview.zoom = 14
         
     def move_speed(self):
         self.ids.screendget.switch_to(self.ids.test1)
@@ -459,8 +459,8 @@ class MyLayout(Screen):
 
         self.lat = destinationLat
         self.lng = destinationLng
-        self.OriginLat = -7.2849060923904085
-        self.OriginLng = 112.7961434972626
+        self.OriginLat = -7.276897814939734
+        self.OriginLng = 112.79654215586092
         # self.lat = -7.277094626336178
         # self.lng = 112.7974416864169
         body = {"locations":[[self.OriginLng,self.OriginLat],[self.lng,self.lat]],"metrics":["distance","duration"],"units":"km"}
@@ -544,15 +544,19 @@ class MyLayout(Screen):
                 elif (float(SOC) - (3/100)*5 > float(test)):
                     if x == eco:
                         estimasi_eco = "CUKUP"
+                        self.ids.eco_recomm.color = 120/255,184/255,146/255,1
                     elif x == normal:
                         estimasi_normal = "CUKUP"
+                        self.ids.normal_recomm.color = 120/255,184/255,146/255,1
                     elif x == sport:
                         estimasi_sport = "CUKUP"
+                        self.ids.sport_recomm.color = 120/255,184/255,146/255,1
+                        
             # satu rekomendasi
             self.ids.eco_recomm.text = str(estimasi_eco)
             self.ids.normal_recomm.text = str(estimasi_normal)
             self.ids.sport_recomm.text = str(estimasi_sport)
-            self.popup = MDDialog(title='Estimasi berhasil',
+            self.popup = MDDialogMap(title='Estimasi telah dilakukan',
                         text= 'ECO : '+estimasi_eco+'\nNORMAL :'+estimasi_normal+'\nSPORT :'+estimasi_sport,
                         radius=[7, 7, 7, 7],
                         md_bg_color=(25/255,135/255,84/255,1),
@@ -632,7 +636,7 @@ class LineMapLayer(MapLayer):
             self._coordinates.append(self.points)
         self._line_points = None
         self._line_points_offset = (0, 0)
-        self.zoom = 9
+        self.zoom = 8
     
         
         # geo_dover   = [51.126251, 1.327067]
@@ -752,10 +756,10 @@ class LineMapLayer(MapLayer):
 
              
             # Draw new
-            Color(31/255,146/255,161/255,1 )
-            Line(points=self.line_points, width=6/2, joint="round")#4/ms)#6., joint="round",joint_precision=100)
+            # Color(31/255,146/255,161/255,1 )
+            # Line(points=self.line_points, width=6/2, joint="round")#4/ms)#6., joint="round",joint_precision=100)
             Color(146/255,218/255,241/255,1)
-            Line(points=self.line_points, width=4 / 2)
+            Line(points=self.line_points, width=4/2, joint="round", joint_precision=100)
             
 
 class NoValueSpeedMeter(SpeedMeter):
