@@ -1,7 +1,8 @@
 from curses import baudrate
+# from msilib.schema import Error
 import os, sys
 import serial
-# import time
+import time
 import json
 # import json_stream
 import fnmatch
@@ -201,11 +202,27 @@ def store_data_arduino(ser):
 
 def main():
     # reset()
+    onLoop = True
+    i = 1
     baudrate = 115200
-    available_ports = arduino_ports()
-    port = serial.Serial(available_ports[0], baudrate, timeout=3)
-    print(available_ports[0])
-    store_data_arduino(port)
+    while onLoop == True:
+        print("try "+str(i))
+        available_ports = arduino_ports()
+        try:
+            i += 1
+            port = serial.Serial(available_ports[0], baudrate, timeout=3)
+            onLoop = False
+        except:
+            onLoop = True
+            pass
+        time.sleep(1)
+        # if len(str(available_ports)) != 0:
+        #     onLoop = False
+        
+    if onLoop == False:    
+        print("port(s) detected :")
+        print(str(available_ports))
+        store_data_arduino(port)
     # print(format(float(data), ".2f"))
 if __name__ == '__main__':
     main()

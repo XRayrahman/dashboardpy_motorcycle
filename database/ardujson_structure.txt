@@ -1,3 +1,6 @@
+
+--- example structure ardujson ---
+
 {
     "t":"70.00", 
     "r":"4.50",

@@ -175,7 +175,7 @@ class Dashboard(MDApp):
         except:
             self.kecepatan = "0.00"
 
-        kecepatan = (float(self.kecepatan)/6)*188.4*0.036
+        kecepatan = (float(self.kecepatan)/6)*188.4*0.036 #kecepatan e-trail
         kecepatan = (format(float(kecepatan), ".0f"))
 
         #maksimal kecepatan
@@ -210,7 +210,7 @@ class Dashboard(MDApp):
         #odo = "0.0"
         if self.sw_started:
             self.sw_seconds += nap  
-        jarak_tempuh = (float(self.kecepatan)/6)*188.4*0.00001
+        jarak_tempuh = (float(self.kecepatan)/6)*188.4*0.00001 # odometer e-trail
         self.jarak_tempuh_total_lima = jarak_tempuh + self.jarak_sebelumnya
         self.jarak_sebelumnya = jarak_tempuh
 
@@ -328,6 +328,8 @@ class Dashboard(MDApp):
         estimationFile = json.load(fe)
         tujuanLat = estimationFile['address']['tujuan']['latitude']
         tujuanLng = estimationFile['address']['tujuan']['longitude']
+        asalLat = estimationFile['address']['asal']['latitude']
+        asalLng = estimationFile['address']['asal']['longitude']
 
 
         if len(tujuanLat) == 0:
@@ -342,7 +344,7 @@ class Dashboard(MDApp):
                         pass
 
                     try:
-                        self.root.estimasi(tujuanLat,tujuanLng, self.SOC_value)
+                        self.root.estimasi(asalLat,asalLng,tujuanLat,tujuanLng, self.SOC_value)
                     except Exception as e:
                         print('estimation error :',str(e) )
 
@@ -384,9 +386,16 @@ class MyLayout(Screen):
     def center_maps(self):
         try:
             mapview = self.ids.mapview
-            line = LineMapLayer(self.lat, self.lng, self.OriginLat, self.OriginLng)
+            line = LineMapLayer(self.DestinationLat, self.DestinationLng, self.OriginLat, self.OriginLng)
             mapview.add_layer(line, mode='scatter')
-            mapview.center_on(self.OriginLat, self.OriginLng)
+            print(self.OriginLat)
+            print(self.OriginLng)
+
+        except Exception as e:
+            print("error load map:", str(e))
+            
+        try:
+            mapview.center_on(float(self.OriginLat), float(self.OriginLng))
             #marker1 = MapMarkerPopup(lat=lat, lon=lng) 
 
         except Exception as e:
@@ -394,7 +403,7 @@ class MyLayout(Screen):
 
         try:
             self.marker_origin = MapMarker(lat=self.OriginLat, lon=self.OriginLng, source="marker-3-24.png")
-            self.marker_destination = MapMarker(lat=self.lat, lon=self.lng, source="marker-red.png")
+            self.marker_destination = MapMarker(lat=self.DestinationLat, lon=self.DestinationLng, source="marker-red.png")
             mapview.add_widget(self.marker_origin)
             mapview.add_widget(self.marker_destination)
             Clock.schedule_once(self.zoom_maps, 17)
@@ -459,7 +468,7 @@ class MyLayout(Screen):
     def move_s_mini2(self):
         self.ids.screendget_mini.switch_to(self.ids.s_mini2)
 
-    def estimasi(self, destinationLat, destinationLng, SOC_value):
+    def estimasi(self,originLat,originLng, destinationLat, destinationLng, SOC_value):
         # lay = MyLayout()
         #path_to_kv_file = "test.kv"
         #gmaps = googlemaps.Client(key=API_key)
@@ -467,13 +476,15 @@ class MyLayout(Screen):
         scaler = joblib.load('std_rev1.bin')
         model = joblib.load('estimasi_rev1.pkl')
 
-        self.lat = destinationLat
-        self.lng = destinationLng
-        self.OriginLat = -7.276897814939734
-        self.OriginLng = 112.79654215586092
-        # self.lat = -7.277094626336178
-        # self.lng = 112.7974416864169
-        body = {"locations":[[self.OriginLng,self.OriginLat],[self.lng,self.lat]],"metrics":["distance","duration"],"units":"km"}
+        self.DestinationLat = destinationLat
+        self.DestinationLng = destinationLng
+        self.OriginLat = originLat
+        self.OriginLng = originLng
+        # -7.276897814939734
+        # 112.79654215586092
+        # self.DestinationLat = -7.277094626336178
+        # self.DestinationLng = 112.7974416864169
+        body = {"locations":[[self.OriginLng,self.OriginLat],[self.DestinationLng,self.DestinationLat]],"metrics":["distance","duration"],"units":"km"}
         headers = {
             'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
             'Authorization': self.API_key,
@@ -497,7 +508,7 @@ class MyLayout(Screen):
             'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
         }
         get_geocode_origin = requests.get('https://api.openrouteservice.org/geocode/reverse?api_key='+self.API_key+'&point.lon='+str(self.OriginLng)+'&point.lat='+str(self.OriginLat)+'&size=2', headers=headers)
-        get_geocode_destination = requests.get('https://api.openrouteservice.org/geocode/reverse?api_key='+self.API_key+'&point.lon='+str(self.lng)+'&point.lat='+str(self.lat)+'&size=2', headers=headers)
+        get_geocode_destination = requests.get('https://api.openrouteservice.org/geocode/reverse?api_key='+self.API_key+'&point.lon='+str(self.DestinationLng)+'&point.lat='+str(self.DestinationLat)+'&size=2', headers=headers)
 
         try:
             geocode_origin = json.loads(get_geocode_origin.text)
