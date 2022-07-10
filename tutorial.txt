@@ -1,0 +1,47 @@
+--------------- RAIZEN --------------------
+---------- Ray Aditya Rahman --------------
+----------- STP PUI-SKO ITS ---------------
+--- Institut Teknologi Sepuluh Nopember ---
+-------------- Indonesia ------------------
+
+- mulai -
+
+1. clone repo terbaru dari dashboardpy_motorcycle ini
+$ git clone --branch master https://github.com/XRayrahman/dashboardpy_motorcycle.git
+
+2. install pip untuk instalasi library python
+$ sudo apt install python3-pip
+
+3. install segala library yang digunakan, catatan : library harus diinstall secara manual dengan clone repo
+$ cd path/to/dashboardpy_motorcycle
+$ pip install -r requirement.txt
+
+4. instalasi library speedmeter
+$ git clone https://github.com/kivy-garden/speedmeter.git
+$ cd path/to/speedmeter
+$ python3 setup.py install
+$ cd ..
+
+5.a. untuk penggunaan *tanpa* program estimasi, buat folder api dan file kosongan api-key.txt
+$ cd path/to/dashboardpy_motorcycle
+$ mkdir .key
+$ touch .key/api-key.txt
+
+5.b. untuk penggunaan *dengan* program estimasi, buat API token pada OpenRouteService API dan masukkan kedalam api-key.txt
+$ nano .key/api-key.txt
+
+6. program siap untuk dijalankan
+$ python3 main.py
+
+7. Agar program dapat berjalan otomatis saat booting, tambahkan ke script auto-start .desktop
+$ cp dashboard.sh ~
+$ cp dashboard.dekstop ~/.local/share/applications/
+
+8. lakukan reboot pada OS
+$ sudo reboot
+
+- selesai -
+
+a. jika terjadi error path not found, sesuaikan kembali path yang ada pada script dasboard.sh dan dashboard.desktop
+$ nano ~/dasboard.sh
+$ nano ~/.local/share/applications/dashboard.desktop

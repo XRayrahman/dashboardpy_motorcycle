@@ -6,10 +6,10 @@ Tampilan dashboard digital untuk kendaraan listrik berbasis python dan kivy
 2. jalankan program dengan "python main.py" atau dengan root "sudo python main.py"
 
 ## Python version
-- tested on 3.7 *(not tested on a newest version)*
-- tested on 3.8
-- tested on 3.9
-- tested on 3.10
+- tested on 3.7 ✔ *(not tested on a newest version)*
+- tested on 3.8 ✔
+- tested on 3.9 ✔
+- tested on 3.10 x cython error, undefined symbol: _PyGen_Send
 
 ## Data can be achieved
 ### BATTERY
@@ -30,7 +30,7 @@ Tampilan dashboard digital untuk kendaraan listrik berbasis python dan kivy
 
 ## Requirements
 - Dependencies/libraries pada requirement.txt
-- python ^3.8
+- python ^3.7 ( 3.10 not included )
 
 
 ## Made by

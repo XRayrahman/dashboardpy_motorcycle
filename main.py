@@ -84,7 +84,7 @@ class Dashboard(MDApp):
 
 
     def asyncProgram(self,dt):
-        Popen("python data_communication.py", shell=True);
+        Popen("python3 data_communication.py", shell=True);
         # Popen("python rfcomm_server.py", shell=True);
 
     def changeScreen(self,dt):
@@ -367,7 +367,7 @@ class MyLayout(Screen):
         this_path = str(os.getcwd())
         path = this_path+"/.key/api-key.txt"
         API_file = open(path,"r")
-        print(API_file)
+        # print(API_file)
         self.API_key = API_file.read()
         API_file.close()
 
