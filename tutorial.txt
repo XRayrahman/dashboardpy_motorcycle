@@ -46,6 +46,14 @@ $ cp dashboard.dekstop ~/.local/share/applications/
 8. lakukan reboot pada OS
 $ sudo reboot
 
+9. percepat proses booting, disable segala service yang tidak digunakan
+- ssh
+- chrony
+- cups
+- ramlog / dari file
+- nobootsplash-time / dari file
+- bluetooth and blueman 
+
 - selesai -
 
 a. jika terjadi error path not found, sesuaikan kembali path yang ada pada script dasboard.sh dan dashboard.desktop
