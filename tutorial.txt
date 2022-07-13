@@ -41,7 +41,10 @@ $ python3 main.py
 $ cp dashboard.sh ~
 $ cd 
 $ chmod +x dasboard.sh
-$ cp dashboard.dekstop ~/.local/share/applications/
+
+$ cp dashboard.dekstop ~/.local/share/applications/ 
+atau
+$ cp dasboard.desktop ~/.config/autostart/
 
 8. lakukan reboot pada OS
 $ sudo reboot
@@ -53,6 +56,9 @@ $ sudo reboot
 - ramlog / dari file
 - nobootsplash-time / dari file
 - bluetooth and blueman 
+
+10. orangepi zero 2 user jangan lupa immute file orangepiEnv.txt untuk tidak berubah
+- sudo chattr +i /boot/orangepiEnv.txt
 
 - selesai -
 

@@ -164,7 +164,7 @@ class Dashboard(MDApp):
         # SOC_value = round((float(strtegangan)/3)*100, 1)
         # self.root.ids.SOC_bar.current_percent = 20
         self.root.ids.SOC_bar.current_percent = SOC_value
-        self.SOC_value = str(SOC_value)+" %"
+        self.SOC_value = str(SOC_value)+"%"
         self.root.ids.SOC_ontop.text = self.SOC_value
 
         #kecepatan
@@ -200,7 +200,9 @@ class Dashboard(MDApp):
         except:
             strsuhu = "0"
 
-        suhu_text = strsuhu +" °C"
+        floatsuhu = float(strsuhu)
+        intsuhu = format(floatsuhu, ".0f")
+        suhu_text = str(intsuhu) +" °C"
         # SOC_text = "TEGANGAN : "+ strtegangan +" V"
         self.root.ids.suhu_value_text.text = suhu_text
 
@@ -402,8 +404,8 @@ class MyLayout(Screen):
             print("error center map:", str(e))
 
         try:
-            self.marker_origin = MapMarker(lat=self.OriginLat, lon=self.OriginLng, source="marker-3-24.png")
-            self.marker_destination = MapMarker(lat=self.DestinationLat, lon=self.DestinationLng, source="marker-red.png")
+            self.marker_origin = MapMarker(lat=self.OriginLat, lon=self.OriginLng, source="assets/marker-3-24.png")
+            self.marker_destination = MapMarker(lat=self.DestinationLat, lon=self.DestinationLng, source="assets/marker-red.png")
             mapview.add_widget(self.marker_origin)
             mapview.add_widget(self.marker_destination)
             Clock.schedule_once(self.zoom_maps, 17)
@@ -810,7 +812,7 @@ def reset():
 # lay = MyLayout()
 reset()
 Dashboard().run()
-os.system("killall python")
+os.system("killall python3")
 
 ##ifi = Popen("python3 testing.py", shell=True);
 #stdout = blu.communicate()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-## NOT USED
+###### NOT USED ######
 import bluetooth
 # from bluetooth import native_socket
 import json
