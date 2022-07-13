@@ -42,7 +42,7 @@ class Dashboard(MDApp):
     sw_seconds = 0
     val = ""
     tuj = ""
-    icon = 'logo.svg'
+    icon = 'assets/logo.svg'
     #global screen_manager
     screen_manager = ScreenManager()
     jarak_tempuh_total = 0
@@ -585,7 +585,7 @@ class MyLayout(Screen):
                         text= 'ECO : '+estimasi_eco+'\nNORMAL :'+estimasi_normal+'\nSPORT :'+estimasi_sport,
                         radius=[7, 7, 7, 7],
                         md_bg_color=(25/255,135/255,84/255,1),
-                        size_hint=(None, None), size=(400, 400))
+                        size_hint=(None, None), size=(400, 200))
             self.popup.open()
         except Exception as e:
             print('estimation error ni :',str(e) )
@@ -593,7 +593,7 @@ class MyLayout(Screen):
                         text= 'pastikan kendaraan terkoneksi dengan internet',
                         radius=[7, 7, 7, 7],
                         md_bg_color=(244/255,67/255,54/255,1),
-                        size_hint=(None, None), size=(400, 400))
+                        size_hint=(None, None), size=(400, 200))
             self.popup.open()
 
         # tiga rekomendasi
