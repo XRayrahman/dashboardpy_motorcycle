@@ -141,17 +141,17 @@
                 #padding:"5dp"
                 # pos_hint: {"center_x": .5, "center_y": 0.3}   
                 
-                # MDSpinner:
-                #     size_hint: None, None
-                #     size: dp(35), dp(35)
-                #     pos_hint: {'center_x': .5, 'center_y': .25}
-                #     active: True
-                AKSpinnerThreeDots:
-                    id: foldingcube
-                    spinner_size: dp(35)
-                    pos_hint: {"center_x": .5, "top": .25}
-                    angle: 45
+                MDSpinner:
+                    size_hint: None, None
+                    size: dp(30), dp(30)
+                    pos_hint: {'center_x': .5, 'center_y': .25}
                     active: True
+                # AKSpinnerThreeDots:
+                #     id: foldingcube
+                #     spinner_size: dp(35)
+                #     pos_hint: {"center_x": .5, "top": .25}
+                #     angle: 45
+                #     active: True
                     # BoxLayout:
                     #     pos_hint: {"center_x": 0.5,"center_y": 1}
                     #     padding:"10dp"
@@ -322,6 +322,7 @@
                                                 text:"Install aplikasi\nuntuk estimasi"
                                                 size_hint:1,1
                                                 font_size:"12sp"
+                                                font_name:"Roboto"
                                                 halign:"center"
                                                 color:(1,1,1,1)
                                             BoxLayout:

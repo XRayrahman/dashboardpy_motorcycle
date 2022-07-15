@@ -74,13 +74,14 @@ class Dashboard(MDApp):
         SOC_value = round((SOC/3)*100, 0)
         SOC_value = str(SOC_value)+"%"
 
-        self.sub1 = Clock.schedule_interval(self.update_status,         5) #(program, interval/waktu dijalankan)
-        self.sub2 = Clock.schedule_interval(self.update_data,           1)
-        self.sub3 = Clock.schedule_interval(self.odometer,              1)
-        self.sub4 = Clock.schedule_interval(self.odometer_submit,       5)
-        self.sub5 = Clock.schedule_interval(self.turn_signal,           2)
-        self.sub6 = Clock.schedule_interval(self.change_screen_tomain,  1)
-        self.asyncRun = Clock.schedule_once(self.asyncProgram,          10)
+        self.sub1 = Clock.schedule_interval(self.update_status,                 5) #(program, interval/waktu dijalankan)
+        self.sub2 = Clock.schedule_interval(self.update_data_kecepatan,         1)
+        self.sub2 = Clock.schedule_interval(self.update_data_tegangan,          5)
+        self.sub3 = Clock.schedule_interval(self.odometer,                      1)
+        self.sub4 = Clock.schedule_interval(self.odometer_submit,               5)
+        self.sub5 = Clock.schedule_interval(self.turn_signal,                   2)
+        self.sub6 = Clock.schedule_interval(self.change_screen_tomain,          1)
+        self.asyncRun = Clock.schedule_once(self.asyncProgram,                  10)
 
 
     def asyncProgram(self,dt):
@@ -129,8 +130,8 @@ class Dashboard(MDApp):
                 self.root.ids.card_label.text = "APLIKASI"
             # self.screen_tomap = False
 
-    #update data SOC dan kecepatan
-    def update_data(self,nap):
+    #update data SOC dan tegangan
+    def update_data_tegangan(self,nap):
         # tegangan = 0.00
         strtegangan = "0.0"
         if self.sw_started:
@@ -143,10 +144,13 @@ class Dashboard(MDApp):
         except:
             strtegangan = "0.00"
 
-        tegangan_text = strtegangan +" V"
+        floattegangan = float(strtegangan)
+        inttegangan = format(floattegangan, ".1f")
+
+        tegangan_text = str(inttegangan) +" V"
         # SOC_text = "TEGANGAN : "+ strtegangan +" V"
         self.root.ids.tegangan_value_text.text = tegangan_text
-        valtegangan = float(strtegangan)
+        valtegangan = float(inttegangan)
         if valtegangan >= 71:
             SOC_value = round(80+((valtegangan-71)/0.7),1)
         elif valtegangan <= 60:
@@ -154,18 +158,18 @@ class Dashboard(MDApp):
             # SOC_value = round(30-((60-valtegangan)/2),1)
         else:
             SOC_value = round(80-((70-valtegangan)/0.1125),1)
-        # if valtegangan >= 7:
-        #     SOC_value = round(20+((valtegangan-7)/2.5),1)
-        # elif valtegangan <= 6:
-        #     SOC_value = round(10-((6-valtegangan)/0.6),1)
-        # else:
-        #     SOC_value = round(20-((7-valtegangan)/0.1),1)
 
         # SOC_value = round((float(strtegangan)/3)*100, 1)
-        # self.root.ids.SOC_bar.current_percent = 20
         self.root.ids.SOC_bar.current_percent = SOC_value
         self.SOC_value = str(SOC_value)+"%"
         self.root.ids.SOC_ontop.text = self.SOC_value
+
+    #update data SOC dan kecepatan
+    def update_data_kecepatan(self,nap):
+        # tegangan = 0.00
+        strtegangan = "0.0"
+        if self.sw_started:
+            self.sw_seconds += nap
 
         #kecepatan
         try:    

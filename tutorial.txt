@@ -37,28 +37,37 @@ $ nano .key/api-key.txt
 6. program siap untuk dijalankan
 $ python3 main.py
 
-7. Agar program dapat berjalan otomatis saat booting, tambahkan ke script auto-start .desktop
+7.a. Agar program dapat berjalan otomatis saat booting, tambahkan ke script auto-start .desktop
 $ cp dashboard.sh ~
 $ cd 
 $ chmod +x dasboard.sh
 
-$ cp dashboard.dekstop ~/.local/share/applications/ 
+7.b. Setelah itu .desktop dapat di setting melalui GUI atau terminal command
+GUI : settings -> session and startup -> set command ke dashboard.sh yang telah dibuat 
 atau
-$ cp dasboard.desktop ~/.config/autostart/
+Term : $ cp dasboard.desktop ~/.config/autostart/
 
-8. lakukan reboot pada OS
+8. Lakukan reboot pada OS
 $ sudo reboot
 
-9. percepat proses booting, disable segala service yang tidak digunakan
-- ssh
-- chrony
-- cups
+9. Untuk mempercepat proses booting, disable segala service yang tidak digunakan
+$ sudo systemctl disable ssh
+$ sudo systemctl disable chrony
+$ sudo systemctl disable cups
+$ sudo systemctl disable bluetooth
+$ sudo systemctl disable blueman 
 - ramlog / dari file
 - nobootsplash-time / dari file
-- bluetooth and blueman 
 
-10. orangepi zero 2 user jangan lupa immute file orangepiEnv.txt untuk tidak berubah
-- sudo chattr +i /boot/orangepiEnv.txt
+10.a. Orangepi zero 2 user, edit nilai yang ada pada file /boot/orangepiEnv.txt seperti berikut
+verbosity=1
+console=serial
+
+10.b. Jangan lupa immute file orangepiEnv.txt untuk tidak berubah
+$ sudo chattr +i /boot/orangepiEnv.txt
+
+11. invert display dan sesuaikan resolusi layar jika diperlukan 
+GUI : settings -> display
 
 - selesai -
 
