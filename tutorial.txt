@@ -16,7 +16,7 @@ $ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-d
 
 3. install segala library yang digunakan, catatan : library kivy dan speedmeter harus diinstall secara manual dengan clone repo
 $ cd path/to/dashboardpy_motorcycle
-$ pip install -r requirement.txt
+$ pip install -r requirements.txt
 
 4. instalasi library speedmeter
 $ cd ~
