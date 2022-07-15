@@ -78,11 +78,23 @@ $ sudo cp orangepiEnv.txt orangepiEnv-copy.txt
 $ sudo chattr +i /boot/orangepiEnv.txt
 $ sudo rm orangepi_first_run.txt.template
 
-11. invert display dan sesuaikan resolusi layar jika diperlukan 
+> invert display dan sesuaikan resolusi layar jika diperlukan 
 GUI : settings -> display
 
 > jangan lupa ganti wallpaper desktop dengan file wallpaper yang telah disediakan
 - dashboardpy_motorcycle/assets/wallpaper.png
+
+> ubah settingan panel biar auto-hide
+GUI : settings -> panel
+    > "Display" tab :
+    mode : vertical
+    automatically hide the panel : always
+    row size (pixels) : 20
+
+    > "Appearance" tab :
+    Dark Mode : switch on
+    Style : Solid color
+    Color : warna hitam ke-4
 
 - selesai -
 
