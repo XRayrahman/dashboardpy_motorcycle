@@ -52,12 +52,12 @@ Term : $ cp dasboard.desktop ~/.config/autostart/
 $ sudo reboot
 
 9. Untuk mempercepat proses booting, disable segala service yang tidak digunakan
-$ sudo systemctl disable ssh
-$ sudo systemctl disable chrony
-$ sudo systemctl disable cups
-$ sudo systemctl disable bluetooth
-$ sudo systemctl disable blueman-mechanism 
-$ sudo systemctl disable xl2tpd
+$ sudo systemctl disable ssh \
+  sudo systemctl disable chrony \
+  sudo systemctl disable cups \
+  sudo systemctl disable bluetooth \
+  sudo systemctl disable blueman-mechanism \
+  sudo systemctl disable xl2tpd
 
 - ramlog == dari file /etc/default/orangepi-ramlog -> ENABLED=false
 $ sudo nano /etc/default/orangepi-ramlog
