@@ -55,16 +55,23 @@ $ sudo systemctl disable ssh
 $ sudo systemctl disable chrony
 $ sudo systemctl disable cups
 $ sudo systemctl disable bluetooth
-$ sudo systemctl disable blueman 
-- ramlog / dari file
-- nobootsplash-time / dari file
+$ sudo systemctl disable blueman-mechanism 
+- ramlog == dari file /etc/default/orangepi-ramlog -> ENABLED=false
+- nobootsplash-time == dari file /etc/systemd/system/graphical.target.wants/bootsplash-hide-when-booted.service -> 'exec /bin/sleep 0'
 
 10.a. Orangepi zero 2 user, edit nilai yang ada pada file /boot/orangepiEnv.txt seperti berikut
-verbosity=1
-console=serial
 
-10.b. Jangan lupa immute file orangepiEnv.txt untuk tidak berubah
+-- backup terlebih dahulu file orangepiEnv.txt --
+$ cd /boot/
+$ cp orangepiEnv.txt orangepiEnv-copy.txt
+-------------------------------------------------
+/boot/orangepiEnv.txt -> verbosity=1
+/boot/orangepiEnv.txt -> console=serial
+
+
+10.b. Jangan lupa immute file orangepiEnv.txt untuk tidak berubah dan hapus file orangepi_first_run
 $ sudo chattr +i /boot/orangepiEnv.txt
+$ sudo rm orangepi_first_run.txt.template
 
 11. invert display dan sesuaikan resolusi layar jika diperlukan 
 GUI : settings -> display
