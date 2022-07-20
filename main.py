@@ -274,17 +274,18 @@ class Dashboard(MDApp):
         isTurnRight = vehicleStatus["turn_signal"][1]
 
         if isTurnLeft == True:
-            self.root.ids.turn_left.text_color = 255/255,255/255,255/255,1
+            self.root.ids.turn_left.text_color = 15/255,18/255,23/255,1
             Clock.schedule_once(self.blink_signal, 1)
         elif isTurnRight == True:
-            self.root.ids.turn_right.text_color = 255/255,255/255,255/255,1
+            self.root.ids.turn_right.text_color = 15/255,18/255,23/255,1
             Clock.schedule_once(self.blink_signal, 1)
         else:
-            self.root.ids.turn_left.text_color = 15/255,18/255,23/255,1
+            self.root.ids.turn_left.text_color = 180/255,180/255,180/255,1
+            self.root.ids.turn_right.text_color = 180/255,180/255,180/255,1
 
     def blink_signal(self, *args):
-        self.root.ids.turn_left.text_color = 15/255,18/255,23/255,1
-        self.root.ids.turn_right.text_color = 15/255,18/255,23/255,1
+        self.root.ids.turn_left.text_color = 180/255,180/255,180/255,1
+        self.root.ids.turn_right.text_color = 180/255,180/255,180/255,1
 
         
 

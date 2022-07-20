@@ -54,7 +54,6 @@ $ sudo reboot
 
 9. Untuk mempercepat proses booting, disable segala service yang tidak digunakan
 $ sudo systemctl disable ssh \
-  sudo systemctl disable chrony \
   sudo systemctl disable cups \
   sudo systemctl disable bluetooth \
   sudo systemctl disable blueman-mechanism \
@@ -98,6 +97,11 @@ GUI : settings -> panel
     Color : warna hitam ke-4
 
 - selesai -
+
+- update program terbaru -
+$ rm -rf path/to/dashboardpy_motorcycle
+$ git clone --branch master https://github.com/XRayrahman/dashboardpy_motorcycle.git
+--------------------------
 
 a. jika terjadi error path not found, sesuaikan kembali path yang ada pada script dasboard.sh dan dashboard.desktop
 $ nano ~/dasboard.sh
