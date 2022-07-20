@@ -65,14 +65,14 @@ class Dashboard(MDApp):
         self.screen_tomap = False
         signal = False
 
-        SOC = 2
-        self.SOC = SOC
-        self.root.ids.SOC_bar.value = SOC
-        SOC_text = str(SOC)+" V"
-        # SOC_text = "TEGANGAN : "+str(SOC)+" V"
-        self.root.ids.tegangan_value_text.text = SOC_text
-        SOC_value = round((SOC/3)*100, 0)
-        SOC_value = str(SOC_value)+"%"
+        # SOC = 2
+        # self.SOC = SOC
+        # self.root.ids.SOC_bar.value = SOC
+        # SOC_text = str(SOC)+" V"
+        # # SOC_text = "TEGANGAN : "+str(SOC)+" V"
+        # self.root.ids.tegangan_value_text.text = SOC_text
+        # SOC_value = round((SOC/3)*100, 0)
+        # SOC_value = str(SOC_value)+"%"
 
         self.sub1 = Clock.schedule_interval(self.update_status,                 5) #(program, interval/waktu dijalankan)
         self.sub2 = Clock.schedule_interval(self.update_data_kecepatan,         1)
