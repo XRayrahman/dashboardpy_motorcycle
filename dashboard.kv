@@ -13,27 +13,9 @@
     user_font_size: "40sp"
     pos_hint:{"center_y": .5}
     theme_text_color: "Custom"
-    text_color: 180/255,180/255,180/255,1
-
-# <Progress>:
-#     title: "Modal popup"
-#     size_hint: (None, None)
-#     size:(300,300)
-
-# <MyAKLineChart@AKLineChart>
-#     size_hint_y: None
-#     height: dp(180)
-#     x_values: [0, 10, 25, 50]
-#     y_values: [0, 5, 15, 35]
-#     circles_color: 146/255,218/255,241/255,1
-#     lines_color: 146/255,218/255,241/255,1
-#     label_size: dp(12)
-#     bg_color: 23/255,28/255,35/255,1
-
-#<MyWindow@AKFloatingWindow>
-#    size_hint: None, None
-#    size: dp(550), dp(350)
-#    orientation: "vertical"
+    # text_color: 180/255,180/255,180/255,1 # light color
+    # text_color: 15/255,18/255,23/255,1 # dark color
+    text_color: 14/255,78/255,107/255,1 # blue-accent color
 
 <PilLayout@BoxLayout>
     size_hint: .1, .05
@@ -45,7 +27,6 @@
             size: self.size
             pos: self.pos
 
-#146/255,218/255,241/255,1
 <RoundCard@MDCard>
     md_bg_color:23/255,28/255,35/255,1
     spacing:"1dp"
@@ -72,24 +53,26 @@
         size_hint:None, None
         size:400, 400
 
-<CardLayout@BoxLayout>
+<CardLayoutSecondary@BoxLayout>
     padding:"25dp"
     canvas:
         Color:
-            # rgba:(10/255,10/255,10/255,1)
-            rgba:(217/255,217/255,217/255,1)
-            #rgba:(14/255,11/255,30/255,1)
+            # rgba:(0/255,10/255,14/255,1) # dark version
+            # rgba:(23/255,33/255,36/255,1) 
+            # rgba:(217/255,217/255,217/255,1) # bright version
+            rgba:(26/255,91/255,120/255,1) # blue-dark version
         RoundedRectangle:
             size: self.size
             pos: self.pos
 
-<CardLayoutSOC@BoxLayout>
+<CardLayout@BoxLayout>
     padding:"25dp"
     canvas:
         Color:
-            # rgba:(10/255,10/255,10/255,1)
-            rgba:(23/255,28/255,35/255,1)
-            #rgba:(14/255,11/255,30/255,1)
+            # rgba:(0/255,10/255,14/255,1) # dark version
+            # rgba:(23/255,33/255,36/255,1) 
+            # rgba:(217/255,217/255,217/255,1) # bright version
+            rgba:(26/255,91/255,120/255,1) # blue-dark version
         RoundedRectangle:
             size: self.size
             pos: self.pos
@@ -97,20 +80,23 @@
 <LabelRajdhani@Label>
     font_name:"fonts/Rajdhani-SemiBold.ttf"
     markup: True
-    color: 15/255,18/255,23/255,1
-    # color: 146/255,218/255,241/255,1
+    # color: 15/255,18/255,23/255,1
+    # color: 146/255,218/255,241/255,1 # cyan color
+    color: 217/255,217/255,217/255,1 # off-white color
 
 <LabelRajdhaniLight@Label>
     font_name:"fonts/Rajdhani-SemiBold.ttf"
     markup: True
-    color: 23/255,28/255,35/255,1
+    # color: 23/255,28/255,35/255,1
+    color: 217/255,217/255,217/255,1 # off-white color
     # color: 146/255,218/255,241/255,1
 
 
 <LabelRajdhaniBottom@Label>
     font_name:"fonts/Rajdhani-SemiBold.ttf"
     font_size:"36sp"
-    color: 15/255,18/255,23/255,1
+    # color: 15/255,18/255,23/255,1 # dark color
+    color: 217/255,217/255,217/255,1 # off-white color
     markup: True
 
 
@@ -120,7 +106,7 @@
     markup: True
 
 
-<Label_roboto_white@Label>
+<LabelRajdhaniWhite@Label>
     font_name:"fonts/Rajdhani-SemiBold.ttf"
     markup: True
     color: (1,1,1,1)
@@ -432,7 +418,7 @@
                                             orientation: "horizontal"
                                             pos_hint:{"top":.77,"center_x":.5}
                                             size_hint: 0.65, 0.085
-                                            Label_roboto_white:
+                                            LabelRajdhaniWhite:
                                                 # id: card_label
                                                 text:"ECO"
                                                 size_hint:1,1
@@ -445,7 +431,7 @@
                                             orientation: "horizontal"
                                             pos_hint:{"top":.0665,"center_x":.5}
                                             size_hint: 0.65, 0.085
-                                            Label_roboto_white:
+                                            LabelRajdhaniWhite:
                                                 # id: card_label
                                                 text:"SPORT"
                                                 size_hint:1,1
@@ -570,7 +556,7 @@
                                                 #     sector_width: 18
 
                                                 
-                                                CardLayoutSOC:
+                                                CardLayoutSecondary:
                                                     orientation: "vertical"
                                                     color: 23/255,28/255,35/255,1
 
@@ -780,19 +766,13 @@
                                                 #             pos_hint:{"left": .5, "center_y": .5}
                                         FloatLayout:
                                             size_hint:1,1
-                                            BoxLayout:
+                                            CardLayout:
                                                 orientation: "vertical"
                                                 pos_hint:{"top":.971,"right":.971}
                                                 size_hint_y:.12
                                                 size_hint_x:.15
                                                 # size: lokasi_label.size
                                                 padding:"7dp"
-                                                canvas:
-                                                    Color:
-                                                        rgba:(23/255,28/255,35/255,1)
-                                                    RoundedRectangle:
-                                                        size: self.size 
-                                                        pos: self.pos
                                                 BoxLayout:
                                                     orientation:"vertical"
                                                     LabelRajdhaniLight:
@@ -805,7 +785,7 @@
 
                                         FloatLayout:
                                             size_hint:1,1
-                                            BoxLayout:
+                                            CardLayout:
                                                 orientation: "vertical"
                                                 # pos_hint:{"top":.28,"left":.971}
                                                 pos_hint:{"top":.3}
@@ -813,12 +793,6 @@
                                                 size_hint_x:1
                                                 # size: lokasi_label.size
                                                 padding:"7dp"
-                                                canvas:
-                                                    Color:
-                                                        rgba:(23/255,28/255,35/255,1)
-                                                    RoundedRectangle:
-                                                        size: self.size 
-                                                        pos: self.pos
                                                 BoxLayout:
                                                     orientation:"horizontal"
                                                     BoxLayout:
@@ -952,7 +926,7 @@
                                 orientation:"horizontal"
 
                                 ## STATUS BAR ICON ##
-                                CardLayout:
+                                CardLayoutSecondary:
                                     size_hint: 0.355, 1
                                     padding:'25sp'
                                     # canvas:
@@ -1003,7 +977,7 @@
                                             # text_color: 15/255,18/255,23/255,1
 
                                 ## STATUS BAR BATTERY INFORMATION ##
-                                CardLayout:
+                                CardLayoutSecondary:
                                     size_hint: 0.477, 1
                                     padding:'5dp'
                                     # canvas:
@@ -1031,7 +1005,7 @@
                                             halign:"right"
                                             valign:"center"
 
-                                        LabelRajdhani:
+                                        LabelRajdhaniBottom:
                                             id: line_junction
                                             size_hint:0.1,1
                                             text:"|"
@@ -1057,7 +1031,7 @@
                 PilLayout:
                     orientation: "horizontal"
                     pos_hint:{"top":.838,"x":.069}
-                    Label_roboto_white:
+                    LabelRajdhaniWhite:
                         id: mode_label
                         
                         text:"MODE"
@@ -1071,7 +1045,7 @@
                 PilLayout:
                     orientation: "horizontal"
                     pos_hint:{"top":.648,"x":.069}
-                    Label_roboto_white:
+                    LabelRajdhaniWhite:
                         id: power_label
                         text:"POWER"
                         size_hint:1,1
@@ -1085,7 +1059,7 @@
                     orientation: "horizontal"
                     pos_hint:{"top":.24,"x":.0472}
                     size_hint: 0.137, 0.044
-                    Label_roboto_white:
+                    LabelRajdhaniWhite:
                         id: card_label
                         text:"APLIKASI"
                         size_hint:1,1
