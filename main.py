@@ -81,7 +81,7 @@ class Dashboard(MDApp):
         self.sub2 = Clock.schedule_interval(self.update_data_suhu_kecepatan,        1)
         self.sub2 = Clock.schedule_interval(self.update_data_soc_tegangan,          5)
         self.sub3 = Clock.schedule_interval(self.odometer,                          1)
-        self.sub4 = Clock.schedule_interval(self.odometer_submit,                   5)
+        self.sub4 = Clock.schedule_interval(self.odometer_submit,                   3)
         self.sub5 = Clock.schedule_interval(self.turn_signal,                       2)
         self.sub6 = Clock.schedule_interval(self.change_screen_tomain,              1)
         self.asyncRun = Clock.schedule_once(self.asyncProgram,                      10)
