@@ -1,6 +1,7 @@
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFillRoundFlatButton, MDFlatButton
 from kivy.uix.screenmanager import RiseInTransition,FadeTransition, ScreenManager, Screen
 from time import strftime
 from math import *
@@ -43,6 +44,8 @@ class Dashboard(MDApp):
     val = ""
     tuj = ""
     icon = 'assets/logo.svg'
+    delay_notification = 0
+    tegangan_sebelum = 0.00
     #global screen_manager
     screen_manager = ScreenManager()
     jarak_tempuh_total = 0
@@ -74,14 +77,14 @@ class Dashboard(MDApp):
         # SOC_value = round((SOC/3)*100, 0)
         # SOC_value = str(SOC_value)+"%"
 
-        self.sub1 = Clock.schedule_interval(self.update_status,                 5) #(program, interval/waktu dijalankan)
-        self.sub2 = Clock.schedule_interval(self.update_data_kecepatan,         1)
-        self.sub2 = Clock.schedule_interval(self.update_data_tegangan,          5)
-        self.sub3 = Clock.schedule_interval(self.odometer,                      1)
-        self.sub4 = Clock.schedule_interval(self.odometer_submit,               5)
-        self.sub5 = Clock.schedule_interval(self.turn_signal,                   2)
-        self.sub6 = Clock.schedule_interval(self.change_screen_tomain,          1)
-        self.asyncRun = Clock.schedule_once(self.asyncProgram,                  10)
+        self.sub1 = Clock.schedule_interval(self.update_status,                     5) #(program, interval/waktu dijalankan)
+        self.sub2 = Clock.schedule_interval(self.update_data_suhu_kecepatan,        1)
+        self.sub2 = Clock.schedule_interval(self.update_data_soc_tegangan,          5)
+        self.sub3 = Clock.schedule_interval(self.odometer,                          1)
+        self.sub4 = Clock.schedule_interval(self.odometer_submit,                   5)
+        self.sub5 = Clock.schedule_interval(self.turn_signal,                       2)
+        self.sub6 = Clock.schedule_interval(self.change_screen_tomain,              1)
+        self.asyncRun = Clock.schedule_once(self.asyncProgram,                      10)
 
 
     def asyncProgram(self,dt):
@@ -129,9 +132,27 @@ class Dashboard(MDApp):
                 self.root.ids.power_label.text = "POWER"
                 self.root.ids.card_label.text = "APLIKASI"
             # self.screen_tomap = False
+    
+    def battery_full(self,status):
+        if(status == "no"):
+            color_bar = 223/255,91/255,97/255,1
+            color_low = 223/255,91/255,97/255,1
+            color_full = 23/255,28/255,35/255,1
+        elif(status == "yes"):
+            color_bar = 118/255,209/255,155/255,1
+            color_low = 23/255,28/255,35/255,1
+            color_full = 118/255,209/255,155/255,1
+        else:
+            color_bar = 166/255,217/255,245/255,1
+            color_low = 23/255,28/255,35/255,1
+            color_full = 23/255,28/255,35/255,1
+            
+        self.root.ids.battery_full.text_color = color_full
+        self.root.ids.battery_low.text_color = color_low
+        self.root.ids.SOC_bar.circle_color = color_bar
 
     #update data SOC dan tegangan
-    def update_data_tegangan(self,nap):
+    def update_data_soc_tegangan(self,nap):
         # tegangan = 0.00
         strtegangan = "0.0"
         if self.sw_started:
@@ -145,27 +166,70 @@ class Dashboard(MDApp):
             strtegangan = "0.00"
 
         floattegangan = float(strtegangan)
-        inttegangan = format(floattegangan, ".1f")
+        if floattegangan > 84.00:
+            floattegangan = 84
 
+        inttegangan = format(floattegangan, ".1f")
         tegangan_text = str(inttegangan) +" V"
         # SOC_text = "TEGANGAN : "+ strtegangan +" V"
         self.root.ids.tegangan_value_text.text = tegangan_text
+
         valtegangan = float(inttegangan)
-        if valtegangan >= 71:
-            SOC_value = round(80+((valtegangan-71)/0.7),1)
-        elif valtegangan <= 60:
+        if valtegangan >= 84:
+            SOC_value = 100
+            self.battery_full("yes")
+            # self.root.ids.battery_low.text_color = 23/255,28/255,35/255,1
+        elif valtegangan < 84 and valtegangan >= 76:
+            SOC_value = round(100-((84-valtegangan)/0.8),1)
+            self.battery_full("yes")
+        elif valtegangan < 76 and valtegangan >= 72:
+            SOC_value = round(90-((76-valtegangan)/0.067),1)
+            self.battery_full("neither")
+        elif valtegangan < 72 and valtegangan >= 60:
+            SOC_value = round(30-((72-valtegangan)/0.4),1)
+            self.battery_full("no")
+        else:
             SOC_value = round(0,1)
             # SOC_value = round(30-((60-valtegangan)/2),1)
-        else:
-            SOC_value = round(80-((70-valtegangan)/0.1125),1)
+            self.battery_full("no")
 
         # SOC_value = round((float(strtegangan)/3)*100, 1)
         self.root.ids.SOC_bar.current_percent = SOC_value
         self.SOC_value = str(SOC_value)+"%"
         self.root.ids.SOC_ontop.text = self.SOC_value
 
-    #update data SOC dan kecepatan
-    def update_data_kecepatan(self,nap):
+        if valtegangan >= 84 and self.tegangan_sebelum < 84.00:
+            self.popup = MDDialogDef(
+                        title='NOTIFICATION ALERT',
+                        text='Baterai terisi penuh \nKendaraan siap untuk digunakan',
+                        radius=[7, 7, 7, 7],
+                        md_bg_color=(25/255,135/255,84/255,1),
+                        size_hint=(.4, .1),
+                        buttons=[
+                            MDFlatButton(text="CANCEL"), MDFillRoundFlatButton(text="HENTIKAN CHARGE"),]
+                        #size=(250, 70)
+                        )
+            self.popup.open()
+            # self.delay_notification = 0
+        elif valtegangan < 72 and self.delay_notification == 5:
+            self.popup = MDDialogDef(
+                        title='NOTIFICATION ALERT',
+                        text='Baterai hampir habis! \nCharge kendaraan terlebih dahulu',
+                        radius=[7, 7, 7, 7],
+                        md_bg_color=(215/255,71/255,68/255,1),
+                        size_hint=(.4, .1),
+                        buttons=[
+                            MDFlatButton(text="CANCEL"), MDFillRoundFlatButton(text="LOKASI CHARGE TERDEKAT"),]
+                        )
+            self.popup.open()
+            self.delay_notification = 0
+        else: 
+            self.delay_notification += 1
+        self.tegangan_sebelum = floattegangan
+        
+
+    #update data suhu dan kecepatan
+    def update_data_suhu_kecepatan(self,nap):
         # tegangan = 0.00
         strtegangan = "0.0"
         if self.sw_started:
@@ -280,14 +344,16 @@ class Dashboard(MDApp):
             self.root.ids.turn_right.text_color = 217/255,217/255,217/255,1
             Clock.schedule_once(self.blink_signal, 1)
         else:
-            self.root.ids.turn_left.text_color = 14/255,78/255,107/255,1
-            self.root.ids.turn_right.text_color = 14/255,78/255,107/255,1
+            # self.root.ids.turn_left.text_color = 14/255,78/255,107/255,1
+            # self.root.ids.turn_right.text_color = 14/255,78/255,107/255,1
+            self.root.ids.turn_left.text_color = 23/255,28/255,35/255,1
+            self.root.ids.turn_right.text_color = 23/255,28/255,35/255,1
             # self.root.ids.turn_left.text_color = 180/255,180/255,180/255,1
             # self.root.ids.turn_right.text_color = 180/255,180/255,180/255,1
 
     def blink_signal(self, *args):
-        self.root.ids.turn_left.text_color = 14/255,78/255,107/255,1
-        self.root.ids.turn_right.text_color = 14/255,78/255,107/255,1
+        self.root.ids.turn_left.text_color = 23/255,28/255,35/255,1
+        self.root.ids.turn_right.text_color = 23/255,28/255,35/255,1
 
         
 
@@ -300,7 +366,7 @@ class Dashboard(MDApp):
         self.root.ids.time_onmap.text = strftime('%H:%M')
 
         if (self.root.ids.power_switch.active == False):
-            os.system("killall python")
+            os.system("killall python3")
 
 
         fd = open('database/connection.json')
@@ -613,7 +679,7 @@ class MDDialogDef(MDDialog):
     def __init__(self, **kwargs):
         super(MDDialog, self).__init__(**kwargs)
         # call dismiss_popup in 2 seconds
-        Clock.schedule_once(self.dismiss_popup, 7)
+        Clock.schedule_once(self.dismiss_popup, 5)
 
     def dismiss_popup(self, *args):
         self.dismiss()
